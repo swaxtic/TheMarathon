@@ -8,13 +8,14 @@ import Form from '../../atoms/Form';
 const FavoriteListView = ({movieTitle, rating, buyOnpress, deleteonPress, poster}) => {
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={poster} />
+      <Image style={styles.image} source={{
+            uri: 'https://image.tmdb.org/t/p/w780' + poster,
+          }} />
       <View style={styles.itemInfo}>
         <View style={styles.containerText}>
           <Text style={styles.title}>
             {movieTitle}
             {'\n'}
-            <Text style={styles.txt}>{rating}</Text>
           </Text>
         </View>
         <View style={styles.iconWrap}>
@@ -51,23 +52,28 @@ const styles = StyleSheet.create({
   },
   itemInfo: {
     marginTop : getHeight(91),
-    paddingLeft : 12,
+    // paddingLeft : 20,
+    paddingRight : 10,
     zIndex: -1,
-    // backgroundColor: 'pink',
+    backgroundColor: '#dadada',
     justifyContent: 'space-between',
-    marginLeft: -12,
+    // marginLeft: -20,
     height: getHeight(54),
-    width: getWidth(228),
+    width: getWidth(238),
     alignItems: 'center',
     flexDirection: 'row',
+    borderBottomRightRadius: 5,
+    borderTopRightRadius: 5,
   },
   image: {
-    backgroundColor: 'grey',
+    // backgroundColor: 'grey',
     height: getHeight(145),
-    width: getWidth(120),
+    width: getWidth(100),
     borderRadius: 20,
+    resizeMode: "contain"
   },
   containerText: {
+    marginLeft: 5,
     width: getWidth(140),
     height: getHeight(54),
     // backgroundColor: 'grey',

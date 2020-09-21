@@ -1,39 +1,51 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View } from 'react-native'
+import {useDispatch, useSelector} from 'react-redux';
+import * as CartActions from '../../store/actions/cartActions';
+import * as FavActions from '../../store/actions/favActions';
+///////////////////////////////////////
 import TopWithIcon from '../../component/molecules/TopWithIcon'
 import FavoriteList from '../../component/molecules/FavoriteListView'
 import { ScrollView } from 'react-native-gesture-handler';
+import { getHeight } from '../../services/getsize';
 
 const WatchList = ({navigation}) => {
-    const [cart] = useState([
-      {nama: '#tag 1',price: 150},
-      {nama: '#tag 2', price: 150},
-      {nama: '#tag 3', price: 150},
-      {nama: '#tag 4', price: 150},
-      {nama: '#tag 5', price: 150},
-    ]);
+  const cartList = useSelector((state) => state.cartReducer.Cart);
+  const favList = useSelector((state) => state.favReducer.Favorite);
+  const dispatch = useDispatch();
+
     useEffect(() => {}, []);
+    var addToCart = (title, id, poster, price = 150000, qty = 1) => {
+      dispatch(CartActions.addToCartSuccess(id, title, poster, price, qty));
+    };
+    var delFav = (id) => {
+      dispatch(FavActions.removeFromFav(id));
+    };
     return (
       <View style={styles.container}>
         <TopWithIcon
-          count={20}
+          count={cartList.length}
           text="Favorite"
           imgSource={require('../../assets/icon/blue/Buy.png')}
           onPress={() => navigation.push('Cart')}
         />
-        <ScrollView showsVerticalScrollIndicator={false} >
-          {cart.map((item, index) => {
+        <ScrollView showsVerticalScrollIndicator={false}>
+        {
+        favList.length ? (
+          favList.map((item, index) => {
             return (
               <FavoriteList
-                //poster={}
                 key={index}
-                movieTitle={item.nama}
-                rating={item.price}
-                deleteonPress={() => alert('delete')}
-                buyOnpress={()=> alert('buy')}
+                poster={item.poster}
+                movieTitle={item.title}
+                deleteonPress={() => delFav(item.id)}
+                buyOnpress={() => addToCart(item.title, item.id, item.poster)}
               />
             );
-          })}
+          })
+          ):(
+          <Text style={[{marginVertical: getHeight(200),alignSelf: 'center'},styles.txt]}>Ups...{'\n'} No data can be displayed here :(</Text>
+          )}
         </ScrollView>
       </View>
     );
@@ -47,4 +59,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     backgroundColor: '#F7F7F7',
   },
+  txt:{
+    fontSize: 14,
+    fontFamily: 'SFPROText-Semibold',
+    color: '#393B63',
+    textAlign: "center"
+  }
 });

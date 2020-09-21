@@ -1,12 +1,13 @@
 import React from 'react';
 import {StyleSheet, Text, View,TextInput} from 'react-native';
 
-const Form = ({title,height,width, keyboardType='default',marginHorizontal, placeholder,secure=false,marginTop,alignSelf}) => {
+const Form = ({value='',title,height,width, keyboardType='default',marginHorizontal, placeholder,secure=false,marginTop,alignSelf}) => {
   return (
     <TextInput
       style={[{marginHorizontal: marginHorizontal,height: height,width:width,marginTop: marginTop, alignSelf: alignSelf}, styles.container]}
       placeholder={placeholder}
       keyboardType={keyboardType}
+      value={`${value}`}
       secureTextEntry={secure}></TextInput>
   );
 };

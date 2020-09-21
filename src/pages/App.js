@@ -8,9 +8,8 @@ import {
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Feather from 'react-native-vector-icons/Feather';
-//import {Provider} from 'react-redux'
-//import {store} from './store'
+import {Provider} from 'react-redux'
+import {store} from '../store'
 /////////////////////////////////////////////////////////////
 import Splash from './Splash';
 import Login from './Login';
@@ -69,7 +68,7 @@ const MyHome = () => {
 
 const Main = () => {
   return (
-    //<Provider store={store}>
+    <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Splash">
         <Stack.Screen
@@ -128,7 +127,7 @@ const Main = () => {
         />
       </Stack.Navigator>
     </NavigationContainer>
-    //</Provider>
+    </Provider>
   );
 };
 

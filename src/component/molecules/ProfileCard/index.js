@@ -9,7 +9,7 @@ const ProfileCard = ({onpress1,onpress2,onpress3}) => {
     <View style={styles.container}>
           <View style={styles.infoAccount}>
               <View style={{height: 55,width: 55, borderRadius: 55/2,backgroundColor: 'grey'}}></View>
-              <Text style={[{color: '#393B63',fontSize: 16},styles.titel]}>Muhammad Adip Kolili</Text>
+              <Text style={[{alignItems:"center",color: '#393B63',fontSize: 16},styles.titel]}>Muhammad Adip</Text>
               <Text style={[{color:'#F4BB8A',fontSize: 14,},styles.titel]}>Member</Text>
             </View>
           <View style={styles.body}>
@@ -29,7 +29,7 @@ export default ProfileCard
 const styles = StyleSheet.create({
   container: {
     alignSelf: 'center',
-    marginTop: getHeight(14),
+    marginTop: getHeight(10),
   },
   infoAccount: {
     zIndex: 1,
@@ -40,13 +40,14 @@ const styles = StyleSheet.create({
     height: getHeight(96),
     elevation: 3,
     alignItems: 'center',
+    justifyContent: "center",
   },
   body: {
     alignItems: 'center',
     zIndex: -1,
     borderRadius: 15,
     backgroundColor: '#F9F8F7',
-    height: getHeight(480),
+    height: getHeight(465),
     width: getWidth(338),
     elevation: 3,
   },
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
     fontFamily: 'SFPROText-Bold',
   },
   txt: {
-    fontFamily: 'SFPROText-Regular',
+    fontFamily: 'SFPROText-Semibold',
     color: '#393B63',
   },
 });

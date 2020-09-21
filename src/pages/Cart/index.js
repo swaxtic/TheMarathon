@@ -1,62 +1,85 @@
 import React, {useState, useEffect} from 'react';
 import {
-  FlatList,
-  Image,
   ScrollView,
   StyleSheet,
   Text,
-  View,
-  Dimensions, 
+  View, 
   TextInput
 } from 'react-native';
 import Top from '../../component/molecules/Top';
+import {formatPrice} from '../../util/format'
 import {getWidth, getHeight} from '../../services/getsize';
 import CartList from '../../component/molecules/CartList';
 import Bottom from '../../component/molecules/BottomNav'
-
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+import {useDispatch, useSelector} from 'react-redux';
+import * as CartActions from '../../store/actions/cartActions';
 
 const Cart = () => {
-    const [cart] = useState([{
-            nama: "#tag 1", price: 150},
-        {   nama: "#tag 2", price: 150},
-        {   nama: "#tag 3", price: 150},
-        {   nama: "#tag 4", price: 150},
-        {   nama: "#tag 5", price: 150}
-    ]);
+  const total = useSelector((state) =>
+    formatPrice(
+      state.cartReducer.Cart.reduce((totalSum, product) => {
+        return totalSum + product.price * product.qty;
+      }, 0),
+    ),
+  );
+  const cartList = useSelector((state) =>
+      state.cartReducer.Cart.map((product) => ({
+        ...product,
+        subTotal: formatPrice(product.price * product.qty),
+      })),
+    );
+  const dispatch = useDispatch();
     useEffect(() => {
-      
-    }, []);
+      console.log('cartlist udate')
+    }, [cartList]);
+
+    var deleteData = (id) => {
+      dispatch(CartActions.removeFromCart(id));
+    };
+    var increaseQTY = (id,qty) => {
+      dispatch(CartActions.increaseQty(id,qty));
+    };
+    var decreaseQTY = (id,currqty, qty) => {
+      if(currqty!=0){
+        dispatch(CartActions.increaseQty(id, qty));
+      }else{
+        deleteData(id)
+      }
+    };
     return (
       <View style={styles.container}>
-          <Top marginTop={getHeight(36)} text="Cart" />
-          <ScrollView showsVerticalScrollIndicator={false} >
-            {cart.map((item, index) => {
+        <Top marginTop={getHeight(36)} text="Cart" />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {cartList.length ? (
+            cartList.map((item, index) => {
               return (
                 <CartList
+                  value={item.qty}
+                  total={formatPrice(item.subtotal)}
                   key={index}
-                  movieTitle={item.nama}
-                  price={item.price}
-                  deleteonPress={() => alert('delete')}
+                  movieTitle={item.title}
+                  poster={item.poster}
+                  price="Rp. 150.000"
+                  deleteonPress={() => deleteData(item.id)}
+                  addOnpress={() => increaseQTY(item.id, 1)}
+                  minOnpress={() => decreaseQTY(item.id, item.qty, -1)}
                 />
               );
-            })}
-          </ScrollView>
-          {/* <FlatList
-          initialNumToRender={3}
-          data={cart}
-          onEndReachedThreshold={0.5}
-          keyExtractor={(x, i) => i.toString()}
-          renderItem={({item}) => 
-          <CartList movieTitle={item.nama} price={item.price} deleteonPress={()=> alert('delete')} />
-        }
-        /> */}
+            })
+          ) : (
+            <Text
+              style={[
+                {marginVertical: getHeight(200), alignSelf: 'center'},
+                styles.txt,
+              ]}>
+              Ups...{'\n'} No data can be displayed here :(
+            </Text>
+          )}
+        </ScrollView>
         <Bottom
           backgroundColor="#DEE6E9"
-          price={0}
-          onPress={() => alert('h')}
+          price={total}
+          onPress={() => alert('Chekout belum tersedia')}
         />
       </View>
     );
@@ -69,5 +92,11 @@ const styles = StyleSheet.create({
         flex : 1,
         paddingHorizontal: 16,
         backgroundColor : '#F7F7F7'
-    }
+    },
+    txt:{
+    fontSize: 14,
+    fontFamily: 'SFPROText-Semibold',
+    color: '#393B63',
+    textAlign: "center"
+  }
 })
