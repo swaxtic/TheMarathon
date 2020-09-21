@@ -5,11 +5,16 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import SmallRounded from '../../atoms/RoundedButton';
 import Form from '../../atoms/Form';
 
-const CartList = ({movieTitle, price, bottomText, deleteonPress, poster}) => {
+const CartList = ({value,addOnpress,minOnpress,movieTitle, price, bottomText, deleteonPress, poster,total}) => {
   return (
     <View style={styles.container}>
       <View style={styles.itemInfo}>
-        <Image style={styles.image} />
+        <Image
+          source={{
+            uri: 'https://image.tmdb.org/t/p/w780' + poster,
+          }}
+          style={styles.image}
+        />
         <View style={styles.containerText}>
           <Text style={styles.title}>
             {movieTitle}
@@ -18,23 +23,24 @@ const CartList = ({movieTitle, price, bottomText, deleteonPress, poster}) => {
           </Text>
         </View>
         <SmallRounded
-          width = {getWidth(30)}
-          height ={getHeight(30)}
+          width={getWidth(30)}
+          height={getHeight(30)}
           onPress={deleteonPress}
           imgSource={require('../../../assets/icon/blue/Delete.png')}
         />
       </View>
       <View style={styles.qty}>
         <View style={{alignItems: 'center', flexDirection: 'row'}}>
-          <Icon color="#393B63" name="minus-circle-outline" size={23} />
+          <Icon onPress={minOnpress} color="#393B63" name="minus-circle-outline" size={23} />
           <Form
+            value={`${value}`}
             keyboardType="numeric"
             marginHorizontal={5}
             height={getHeight(36)}
             width={getWidth(60)}
           />
-          <Icon color="#393B63" name="plus-circle-outline" size={23} />
-          <Text style={[{marginLeft: getWidth(105)}, styles.title]}>Harga</Text>
+          <Icon onPress={addOnpress} color="#393B63" name="plus-circle-outline" size={23} />
+          <Text style={[{marginLeft: getWidth(90)}, styles.subtotal]}>{total}</Text>
         </View>
       </View>
     </View>
@@ -51,6 +57,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   itemInfo: {
+    paddingRight: 5,
     justifyContent: 'space-between',
     height: getHeight(85),
     width: null,
@@ -58,8 +65,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   image: {
-    backgroundColor: 'blue',
+    // backgroundColor: 'blue',
     height: getHeight(84),
+    resizeMode: 'contain',
     width: getWidth(84),
     borderRadius: 20,
   },
@@ -69,6 +77,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'grey',
   },
   qty: {
+    alignSelf: "center",
     height: getHeight(49),
     width: null,
     backgroundColor: '#DEE6E9',
@@ -84,6 +93,11 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
+    fontFamily: 'SFPROText-Bold',
+    color: '#393B63',
+  },
+  subtotal: {
+    fontSize: 16,
     fontFamily: 'SFPROText-Bold',
     color: '#393B63',
   },

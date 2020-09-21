@@ -15,9 +15,10 @@ import Hastag from '../../component/atoms/ButtonMedium'
 import MovieList from '../../component/molecules/MovieList'
 import SeparatorList from '../../component/molecules/SeparatorList'
 import Slide from '../../component/molecules/SliderImage'
-// import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 // import * as CartActions from './store/actions/cartActions';
 const Home = ({navigation}) => {
+  const cartList = useSelector((state) => state.cartReducer.Cart);
     const [data, setData] = useState([]);
     const [imgSlider, setImgSlider] = useState([]);
     const [hastag] = useState([{
@@ -64,12 +65,12 @@ const Home = ({navigation}) => {
     return (
       <View style={styles.container}>
         <Top
-          count={20}
+          count={cartList.length}
           text="Movies"
           imgSource={require('../../assets/icon/blue/Buy.png')}
           onPress={() => navigation.push('Cart')}
         />
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <Slide imgSlider={imgSlider} />
           <View style={{}}>
             <FlatList
@@ -99,7 +100,11 @@ const Home = ({navigation}) => {
               keyExtractor={(x, i) => i.toString()}
               renderItem={({item}) => (
                 <MovieList
-                  onPress={() => alert(item.title, item.id)}
+                  onPress={() =>
+                    navigation.push('Detail', {
+                      itemId: item.id,
+                    })
+                  }
                   poster={item.poster_path}
                   movieTitle={item.title}
                   bottomText={item.vote_average}
@@ -118,7 +123,11 @@ const Home = ({navigation}) => {
               keyExtractor={(x, i) => i.toString()}
               renderItem={({item}) => (
                 <MovieList
-                  onPress={() => navigation.navigate('Detail')}
+                  onPress={() =>
+                    navigation.push('Detail', {
+                      itemId: item.id,
+                    })
+                  }
                   poster={item.poster_path}
                   movieTitle={item.title}
                   bottomText={item.vote_average}

@@ -11,7 +11,7 @@ const DetailMovie = ({
   return (
     <View>
       <View style={styles.container}>
-        <Text style={[{fontSize: 26}, styles.txt]}>{title}</Text>
+        <Text style={[{fontSize: 26}, styles.title]}>{title}</Text>
         <View style={styles.info}>
           <Text style={styles.txt}>IMDB {imdb}</Text>
           <Text style={styles.txt}>Release Date :
@@ -23,7 +23,7 @@ const DetailMovie = ({
         <Text style={[{marginBottom: 5, fontSize: 18}, styles.txt]}>
           Overview
         </Text>
-        <Text style={styles.txt}>{overview}</Text>
+        <Text style={[{textAlign: "justify"},styles.txtOverview]}>{overview}</Text>
       </View>
     </View>
   );
@@ -52,6 +52,14 @@ const styles = StyleSheet.create({
     // backgroundColor: 'pink',
   },
   txt: {
+    fontFamily: 'SFPROText-Semibold',
+    color: '#393B63',
+  },
+  txtOverview: {
+    fontFamily: 'SFPROText-Regular',
+    color: 'rgba(0, 0, 0, 0.7)',
+  },
+  title: {
     fontFamily: 'SFPROText-Semibold',
     color: '#393B63',
   },

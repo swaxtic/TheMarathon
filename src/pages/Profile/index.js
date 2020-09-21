@@ -1,15 +1,16 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View } from 'react-native'
-import Menu from '../../component/atoms/Menu';
+import {useDispatch, useSelector} from 'react-redux';
+/////////////////////////////////////////////////////////////
 import ProfileCard from '../../component/molecules/ProfileCard';
 import TopWithIcon from '../../component/molecules/TopWithIcon';
-import { getHeight, getWidth } from '../../services/getsize';
 
-const Profile = () => {
+const Profile = ({navigation}) => {
+  const cartList = useSelector((state) => state.cartReducer.Cart);
     return (
       <View style={styles.container}>
         <TopWithIcon
-          count={20}
+          count={cartList.length}
           text="Profile"
           imgSource={require('../../assets/icon/blue/Buy.png')}
           onPress={() => navigation.push('Cart')}
